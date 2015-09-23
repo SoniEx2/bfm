@@ -1,0 +1,73 @@
+# READING INSTRUCTIONS:
+# the commands start at cell 0.
+# >(commands)< indicates next cell.
+# <(commands)> indicates previous cell.
+# whitespace is ignored.
+# () is ignored.
+# # is a comment
+# [] is a loop
+# $<name> in a comment means you should look up the definition for <name>
+
+# clear current cell.
+# IMPLEMENTATION:
+# loop:
+# - decrement
+clear :: [-] ;
+
+# add cells.
+# IMPLEMENTATION:
+# run on next cell:
+# - loop:
+# - - decrement
+# - - run on previous cell:
+# - - - increment
+add :: >[-<+>]< ;
+
+# subtract cells.
+# IMPLEMENTATION:
+# run on next cell:
+# - loop:
+# - - decrement
+# - - run on previous cell:
+# - - - decrement
+sub :: >[-<->]< ;
+
+# push cell forward
+# IMPLEMENTATION:
+# run on next cell:
+# - $clear
+# loop:
+# - decrement
+# - run on next cell:
+# - - increment
+push :: >clr< [->+<] ;
+
+# pull cell back
+# IMPLEMENTATION:
+# $clear
+# run on next cell:
+# - loop:
+# - - decrement
+# - - run on previous cell:
+# - - - increment
+pull :: clr >[-<+>]< ;
+
+# copy current cell into next while clearing the 2nd next cell.
+# IMPLEMENTATION:
+# run on next cell:
+# - $clear
+# - run on next cell:
+# - - $clear
+# loop:
+# - decrement
+# - run on next cell:
+# - - increment
+# - - run on next cell:
+# - - - increment
+# run on next cell:
+# - run on next cell:
+# - - decrement
+# - - run on previous cell:
+# - - - run on previous cell:
+# - - - - increment
+dup :: >(clr >(clr)<)< [->+>+<<]>>[-<<+>>]<< ; # move n0 into n1 using n2 as temporary
